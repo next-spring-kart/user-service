@@ -1,0 +1,33 @@
+# Gradle build files
+.gradle/
+build/
+
+# IntelliJ / VS Code / IDE files
+.idea/
+.vscode/
+
+# OS and system files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git
+.gitignore
+
+# Logs
+*.log
+
+# Dependency caches
+**/node_modules
+**/.mvn
+**/.npm
+**/.cache
+
+# Environment/config files (optional – only if you’re not copying them intentionally)
+.env
+*.iml
+
+# Docker output
+*.jar
+*.war
+*.class
