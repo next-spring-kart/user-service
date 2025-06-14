@@ -1,0 +1,16 @@
+spring:
+    datasource:
+        url: jdbc:postgresql://${PGHOST:localhost}:5432/${PGDATABASE:user_db}?sslmode=require
+        username: ${PGUSER:postgres}
+        password: ${PGPASSWORD:password}
+        driver-class-name: org.postgresql.Driver
+        hikari:
+            maximum-pool-size: 5
+            connection-timeout: 30000
+
+logging:
+    level:
+        org.springframework: INFO
+        org.nextspringkart: DEBUG
+        org.hibernate.SQL: DEBUG
+        org.hibernate.type.descriptor.sql.BasicBinder: TRACE

@@ -1,0 +1,55 @@
+server:
+    port: 8081
+
+spring:
+    application:
+        version: 1.0.0
+        organization:
+            name: next-spring-kart
+        name: user-service
+
+    datasource:
+        url: jdbc:postgresql://${PGHOST:localhost}:5432/${PGDATABASE:user_db}?sslmode=require
+        username: ${PGUSER:postgres}
+        password: ${PGPASSWORD:password}
+        driver-class-name: org.postgresql.Driver
+
+    jpa:
+        hibernate:
+            ddl-auto: validate
+        show-sql: false
+        properties:
+            hibernate:
+                format_sql: true
+
+    flyway:
+        enabled: true
+        locations: classpath:db/migration
+        baseline-on-migrate: true
+
+eureka:
+    client:
+        service-url:
+            defaultZone: http://localhost:8761/eureka/
+    instance:
+        prefer-ip-address: true
+
+jwt:
+    secret: ${JWT_SECRET:mySecretKey12345678901234567890123456789012345}
+    expiration: 86400000 # 24 hours in milliseconds
+
+logging:
+    level:
+        com.nextspringkart.userservice: DEBUG
+        org.springframework.security: DEBUG
+    pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%logger{36}] - %msg%n"
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health,info,metrics,routes
+    endpoint:
+        health:
+            show-details: always

@@ -24,7 +24,7 @@ Thumbs.db
 **/.cache
 
 # Environment/config files (optional – only if you’re not copying them intentionally)
-.env
+service/.env
 *.iml
 
 # Docker output
