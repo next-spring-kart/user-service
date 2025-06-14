@@ -1,16 +1,16 @@
     updated on: 14th June 2025, Saturday
 
 <div align=center>
-    <a href="https://github.com/warmachine028/github-super-starter-kit">
+    <a href="https://github.com/next-spring-kart/user-service">
         <img width="200" src="https://img.icons8.com/?size=1000&id=46874" alt="github-super-starter-kit">
     </a>
     <p style="font-family: roboto,calibri,serif; font-size:12pt; font-style:italic"> A good one liner description here </p>
-    <a href="https://github.com/warmachine028/github-super-starter-kit/forks">
-        <img alt="GitHub forks" src="https://img.shields.io/github/forks/warmachine028/github-super-starter-kit">
+    <a href="https://github.com/next-spring-kart/user-service/forks">
+        <img alt="GitHub forks" src="https://img.shields.io/github/forks/next-spring-kart/user-service">
     </a>
 </div>
 
-# [Github Super Starter Kit](https://github.com/warmachine028/github-super-starter-kit)
+# [User Service](https://github.com/next-spring-kart/user-service)
 
 ![line]
 
@@ -55,7 +55,7 @@
 - Enable Dependabot Alerts
 
 1. Wait for the Run Initializer above step to complete.
-2. Go to [**Security**](https://github.com/warmachine028/github-super-starter-kit/security) tab.
+2. Go to [**Security**](https://github.com/next-spring-kart/user-service/security) tab.
 3. Click on **Security Overview**.
 4. Click on `Enable Dependabot alerts` button.
 
@@ -103,8 +103,8 @@
 ## Best Contributors
 
 <div align="center">
-    <a href="https://github.com/warmachine028/github-super-starter-kit/graphs/contributors">
-        <img src="https://contrib.rocks/image?repo=warmachine028/github-super-starter-kit" alt="contributors"/>
+    <a href="https://github.com/next-spring-kart/user-service/graphs/contributors">
+        <img src="https://contrib.rocks/image?repo=next-spring-kart/user-service" alt="contributors"/>
     </a>
 </div>
 
@@ -124,6 +124,6 @@
 [markdown-badges]: https://github.com/Ileriayo/markdown-badges
 [custom-icons]: https://simpleicons.org
 [line]: https://user-images.githubusercontent.com/75939390/137615281-3a875960-92cc-407f-97fe-fd2319bdb252.png
-[License]: https://github.com/warmachine028/github-super-starter-kit/blob/main/LICENSE
+[License]: https://github.com/next-spring-kart/user-service/blob/main/LICENSE
 
 <!-- 14/06/25 -->
