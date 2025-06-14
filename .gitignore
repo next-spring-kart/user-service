@@ -52,7 +52,6 @@ cover/
 
 # Java/Kotlin/Gradle specific
 .gradle/
-build/
 out/
 *.class
 *.jar
