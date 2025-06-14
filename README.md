@@ -1,4 +1,4 @@
-    updated on: 04th January 2025, Saturday
+    updated on: 14th June 2025, Saturday
 
 <div align=center>
     <a href="https://github.com/warmachine028/github-super-starter-kit">
@@ -126,4 +126,4 @@
 [line]: https://user-images.githubusercontent.com/75939390/137615281-3a875960-92cc-407f-97fe-fd2319bdb252.png
 [License]: https://github.com/warmachine028/github-super-starter-kit/blob/main/LICENSE
 
-<!-- 04/01/25 -->
+<!-- 14/06/25 -->
