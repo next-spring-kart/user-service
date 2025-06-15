@@ -9,7 +9,7 @@ object ValidationUtils {
     )
 
     private val PHONE_PATTERN = Pattern.compile(
-        "^[\\+]?[1-9]?[0-9]{7,15}$"
+        "^[+]?[1-9]?[0-9]{7,15}$"
     )
 
     private val PASSWORD_PATTERN = Pattern.compile(
