@@ -1,6 +1,7 @@
 package com.nextspringkart.userservice.config
 
 
+import com.nextspringkart.userservice.filter.JwtAuthenticationFilter
 import com.nextspringkart.userservice.service.UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -27,7 +28,9 @@ class SecurityConfig(
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): DefaultSecurityFilterChain =
-        http.csrf { it.disable() }.cors { it.configurationSource(corsConfigurationSource()) }
+        http
+            .csrf { it.disable() }
+            .cors { it.configurationSource(corsConfigurationSource()) }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers(
@@ -57,6 +60,7 @@ class SecurityConfig(
             allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
             allowedHeaders = listOf("*")
             allowCredentials = true
+            maxAge = 3600L
         })
     }
 

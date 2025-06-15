@@ -26,6 +26,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    // Actuator for monitoring
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     // Spring Cloud

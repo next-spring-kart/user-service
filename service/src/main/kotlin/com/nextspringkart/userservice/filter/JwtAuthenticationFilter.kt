@@ -1,4 +1,4 @@
-package com.nextspringkart.userservice.config
+package com.nextspringkart.userservice.filter
 
 import com.nextspringkart.userservice.service.JwtService
 import com.nextspringkart.userservice.service.UserService
