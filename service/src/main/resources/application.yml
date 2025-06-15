@@ -32,6 +32,11 @@ spring:
         enabled: true
         locations: classpath:db/migrations
         baseline-on-migrate: true
+        placeholders:
+            ADMIN_EMAIL: ${ADMIN_EMAIL}
+            ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
+            ADMIN_FIRST_NAME: ${ADMIN_FIRST_NAME}
+            ADMIN_LAST_NAME: ${ADMIN_LAST_NAME}
 
 eureka:
     client:
