@@ -1,4 +1,4 @@
-    updated on: 14th June 2025, Saturday
+    updated on: 15th June 2025, Sunday
 
 <div align=center>
     <a href="https://github.com/next-spring-kart/user-service">
@@ -126,4 +126,4 @@
 [line]: https://user-images.githubusercontent.com/75939390/137615281-3a875960-92cc-407f-97fe-fd2319bdb252.png
 [License]: https://github.com/next-spring-kart/user-service/blob/main/LICENSE
 
-<!-- 14/06/25 -->
+<!-- 15/06/25 -->
