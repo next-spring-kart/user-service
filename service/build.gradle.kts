@@ -11,7 +11,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
 }
 
-group = "org.nextspringkart"
+group = "com.nextspringkart"
 version = "1.0-SNAPSHOT"
 
 java {
