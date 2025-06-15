@@ -2,6 +2,7 @@ package org.nextspringkart.userservice.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.validation.FieldError
@@ -95,7 +96,6 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException::class)
     fun handleAccessDenied(
-        ex: AccessDeniedException,
         request: WebRequest
     ): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(
@@ -109,7 +109,6 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException::class)
     fun handleBadCredentials(
-        ex: BadCredentialsException,
         request: WebRequest
     ): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(
@@ -143,6 +142,31 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error)
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException::class)
+    fun handleHttpMessageNotReadableException(
+        ex: HttpMessageNotReadableException,
+        request: WebRequest
+    ): ResponseEntity<ErrorResponse> {
+        val errorMessage = when {
+            ex.message?.contains("non-nullable") == true -> {
+                val fieldName = ex.message?.substringAfter("JSON property ")
+                    ?.substringBefore(" due to")
+                "Field '$fieldName' cannot be null or empty"
+            }
+
+            else -> "Invalid request body: ${ex.message}"
+        }
+        val cause = ex.cause?.message ?: "No cause available"
+        val error = ErrorResponse(
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = "Bad Request",
+            message = errorMessage,
+            path = getPath(request),
+            details = mapOf("error" to errorMessage, "cause" to cause)
+        )
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error)
+    }
+
     @ExceptionHandler(Exception::class)
     fun handleGenericException(
         ex: Exception,
@@ -151,8 +175,8 @@ class GlobalExceptionHandler {
         val error = ErrorResponse(
             status = HttpStatus.INTERNAL_SERVER_ERROR.value(),
             error = "Internal Server Error",
-            message = "An unexpected error occurred",
-            path = getPath(request)
+            message = ex.message ?: "An unexpected error occurred",
+            path = getPath(request),
         )
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error)
     }

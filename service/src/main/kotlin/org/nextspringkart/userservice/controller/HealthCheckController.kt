@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/health")
-class HealthCheckController(private var healthCheckService: HealthCheckService) {
+class HealthCheckController(
+    private val healthCheckService: HealthCheckService
+) {
+
     @GetMapping
     fun getHealthStatus(): ResponseEntity<String> {
         val status = healthCheckService.getApplicationHealth()

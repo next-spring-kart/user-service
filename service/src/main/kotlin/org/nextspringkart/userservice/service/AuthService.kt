@@ -58,7 +58,7 @@ class AuthService(
         val expirationTime = jwtService.getExpirationTime()
 
         return AuthResponse(
-            token = token,
+            token,
             expiresIn = expirationTime,
             user = userService.mapToUserResponse(user)
         )

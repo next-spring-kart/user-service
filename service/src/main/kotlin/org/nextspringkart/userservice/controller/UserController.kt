@@ -23,7 +23,8 @@ import org.springframework.web.bind.annotation.*
 class UserController(
     private val authService: AuthService,
     private val userService: UserService,
-    private val jwtService: JwtService
+    private val jwtService: JwtService,
+    private val healthCheckController: HealthCheckController
 ) {
 
     @PostMapping("/register")
@@ -83,9 +84,19 @@ class UserController(
             "email" to email,
             "role" to role
         )
-        
+
         return ResponseEntity.ok(response)
     }
 
+    @GetMapping("/health")
+    fun getHealthStatus() = healthCheckController.getHealthStatus()
+
+    @GetMapping("/logout")
+    @PreAuthorize("hasRole('USER')")
+    fun logout(): ResponseEntity<String> {
+        // Invalidate the JWT token on the client side
+        // This is a no-op in stateless JWT authentication, but can be used to clear client-side state
+        return ResponseEntity.ok("Logged out successfully")
+    }
 
 }
