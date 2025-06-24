@@ -1,7 +1,7 @@
 package com.nextspringkart.userservice.config
 
-
-import com.nextspringkart.userservice.filter.JwtAuthenticationFilter
+import com.nextspringkart.userservice.filter.GatewayAuthFilter
+import com.nextspringkart.userservice.filter.RoleHeaderAuthenticationFilter
 import com.nextspringkart.userservice.service.UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,25 +12,23 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.DefaultSecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 class SecurityConfig(
     private val userService: UserService,
-    private val jwtAuthenticationFilter: JwtAuthenticationFilter
+    private val gatewayAuthFilter: GatewayAuthFilter,
+    private val roleHeaderAuthenticationFilter: RoleHeaderAuthenticationFilter
 ) {
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): DefaultSecurityFilterChain =
         http
+            .addFilterBefore(roleHeaderAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .csrf { it.disable() }
-            .cors { it.configurationSource(corsConfigurationSource()) }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers(
@@ -38,7 +36,6 @@ class SecurityConfig(
                     "/api/users/login",
                     "/api/users/health",
                     "/health",
-                    "/api/users/validate-token",
                     "/actuator/**",
                     "/swagger-ui/**",
                     "/v3/api-docs/**"
@@ -48,24 +45,13 @@ class SecurityConfig(
                     .permitAll()
                     .anyRequest()
                     .authenticated()
-            }.authenticationProvider(authenticationProvider())
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            }
+            .addFilterBefore(gatewayAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()
 
 
     @Bean
-    fun corsConfigurationSource() = UrlBasedCorsConfigurationSource().apply {
-        registerCorsConfiguration("/**", CorsConfiguration().apply {
-            allowedOrigins = listOf("*")
-            allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
-            allowedHeaders = listOf("*")
-            allowCredentials = true
-            maxAge = 3600L
-        })
-    }
-
-    @Bean
-    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
+    fun passwordEncoder() = BCryptPasswordEncoder()
 
     @Bean
     fun authenticationProvider() = DaoAuthenticationProvider(userService).apply {

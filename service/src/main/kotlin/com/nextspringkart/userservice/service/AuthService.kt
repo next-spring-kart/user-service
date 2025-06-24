@@ -2,7 +2,7 @@ package com.nextspringkart.userservice.service
 
 import com.nextspringkart.userservice.dto.request.LoginRequest
 import com.nextspringkart.userservice.dto.request.RegisterRequest
-import com.nextspringkart.userservice.dto.response.AuthResponse
+import com.nextspringkart.userservice.dto.response.UserResponse
 import com.nextspringkart.userservice.entity.User
 import com.nextspringkart.userservice.exception.InvalidCredentialsException
 import com.nextspringkart.userservice.exception.UserAlreadyExistsException
@@ -14,11 +14,10 @@ import org.springframework.stereotype.Service
 class AuthService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val jwtService: JwtService,
     private val userService: UserService
 ) {
 
-    fun register(request: RegisterRequest): AuthResponse {
+    fun register(request: RegisterRequest): UserResponse {
         if (userRepository.existsByEmail(request.email)) {
             throw UserAlreadyExistsException("User with email ${request.email} already exists")
         }
@@ -32,17 +31,10 @@ class AuthService(
         )
 
         val savedUser = userRepository.save(user)
-        val token = jwtService.generateToken(savedUser)
-        val expirationTime = jwtService.getExpirationTime()
-
-        return AuthResponse(
-            token = token,
-            expiresIn = expirationTime,
-            user = userService.mapToUserResponse(savedUser)
-        )
+        return userService.mapToUserResponse(savedUser)
     }
 
-    fun login(request: LoginRequest): AuthResponse {
+    fun login(request: LoginRequest): UserResponse {
         val user = userRepository.findByEmail(request.email)
             ?: throw InvalidCredentialsException("Invalid email or password")
 
@@ -50,17 +42,6 @@ class AuthService(
             throw InvalidCredentialsException("Invalid email or password")
         }
 
-        if (!user.isActive) {
-            throw InvalidCredentialsException("Account is deactivated")
-        }
-
-        val token = jwtService.generateToken(user)
-        val expirationTime = jwtService.getExpirationTime()
-
-        return AuthResponse(
-            token,
-            expiresIn = expirationTime,
-            user = userService.mapToUserResponse(user)
-        )
+        return userService.mapToUserResponse(user)
     }
 }

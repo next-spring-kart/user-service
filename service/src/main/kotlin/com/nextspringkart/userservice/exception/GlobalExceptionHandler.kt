@@ -1,5 +1,6 @@
 package com.nextspringkart.userservice.exception
 
+import com.nextspringkart.userservice.dto.response.ErrorResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -10,24 +11,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
-import java.time.LocalDateTime
 
-data class ErrorResponse(
-    val timestamp: LocalDateTime = LocalDateTime.now(),
-    val status: Int,
-    val error: String,
-    val message: String,
-    val path: String,
-    val details: Map<String, Any>? = null
-)
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException::class)
     fun handleUserAlreadyExists(
-        ex: UserAlreadyExistsException,
-        request: WebRequest
+        ex: UserAlreadyExistsException, request: WebRequest
     ): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(
             status = HttpStatus.CONFLICT.value(),
@@ -40,8 +31,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidCredentialsException::class)
     fun handleInvalidCredentials(
-        ex: InvalidCredentialsException,
-        request: WebRequest
+        ex: InvalidCredentialsException, request: WebRequest
     ): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(
             status = HttpStatus.UNAUTHORIZED.value(),
@@ -54,8 +44,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleResourceNotFound(
-        ex: ResourceNotFoundException,
-        request: WebRequest
+        ex: ResourceNotFoundException, request: WebRequest
     ): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(
             status = HttpStatus.NOT_FOUND.value(),
@@ -68,8 +57,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(UnauthorizedException::class)
     fun handleUnauthorized(
-        ex: UnauthorizedException,
-        request: WebRequest
+        ex: UnauthorizedException, request: WebRequest
     ): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(
             status = HttpStatus.UNAUTHORIZED.value(),
@@ -82,8 +70,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidTokenException::class)
     fun handleInvalidToken(
-        ex: InvalidTokenException,
-        request: WebRequest
+        ex: InvalidTokenException, request: WebRequest
     ): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(
             status = HttpStatus.UNAUTHORIZED.value(),
@@ -122,8 +109,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationErrors(
-        ex: MethodArgumentNotValidException,
-        request: WebRequest
+        ex: MethodArgumentNotValidException, request: WebRequest
     ): ResponseEntity<ErrorResponse> {
         val errors = mutableMapOf<String, String>()
         ex.bindingResult.allErrors.forEach { error ->
@@ -144,13 +130,11 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException::class)
     fun handleHttpMessageNotReadableException(
-        ex: HttpMessageNotReadableException,
-        request: WebRequest
+        ex: HttpMessageNotReadableException, request: WebRequest
     ): ResponseEntity<ErrorResponse> {
         val errorMessage = when {
             ex.message?.contains("non-nullable") == true -> {
-                val fieldName = ex.message?.substringAfter("JSON property ")
-                    ?.substringBefore(" due to")
+                val fieldName = ex.message?.substringAfter("JSON property ")?.substringBefore(" due to")
                 "Field '$fieldName' cannot be null or empty"
             }
 
@@ -169,8 +153,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception::class)
     fun handleGenericException(
-        ex: Exception,
-        request: WebRequest
+        ex: Exception, request: WebRequest
     ): ResponseEntity<ErrorResponse> {
         val error = ErrorResponse(
             status = HttpStatus.INTERNAL_SERVER_ERROR.value(),

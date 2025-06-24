@@ -1,4 +1,7 @@
 spring:
+    config:
+        activate:
+            on-profile: dev
     datasource:
         hikari:
             maximum-pool-size: 5
@@ -13,5 +16,6 @@ logging:
         org.hibernate.SQL: DEBUG
         org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
-jwt:
-    expiration: 3600000 # 1 hour
+
+gateway:
+    url: http://localhost:8080

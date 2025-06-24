@@ -1,4 +1,7 @@
 spring:
+    config:
+        activate:
+            on-profile: production
     datasource:
         hikari:
             maximum-pool-size: 20
@@ -18,9 +21,6 @@ logging:
         name: logs/user-service.log
     pattern:
         file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-
-jwt:
-    expiration: 86400000 # 24 hours
 
 management:
     endpoints:
